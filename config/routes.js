@@ -37,6 +37,8 @@ module.exports.routes = {
 
   'GET /claim-account':      { action: 'entrance/view-claim-account' },
 
+  'GET /properties/':        { action: 'properties/view-list-of-properties' },
+
 
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
