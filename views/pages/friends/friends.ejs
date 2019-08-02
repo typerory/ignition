@@ -1,10 +1,10 @@
 <div id="friends" v-cloak>
   <div class="container">
     <div class="page-header text-center">
-      <h1>Friends</h1>
-      <h2>View and add people to share stuff with.</h2>
+      <h1>Partners</h1>
+      <h2>View and add people to share property listings.</h2>
       <div class="header-buttons">
-        <button class="btn btn-outline-primary" @click="clickInviteButton()">Invite friends</button>
+        <button class="btn btn-outline-primary" @click="clickInviteButton()">Invite partners</button>
       </div>
     </div>
     <div class="friends-list" v-if="me.friends.length > 0">
@@ -52,7 +52,7 @@
         </tbody>
       </table>
     </div>
-    <div class="empty text-center" v-if="me.inboundFriendRequests.length === 0 && me.outboundFriendRequests.length === 0 && me.friends.length === 0"><p>You don't have any friends on Ration! In order to upload and borrow items, you'll need to <a href="/friends/new" @click="clickAddButton()">invite people</a> to join or add you as a friend.</p></div>
+    <div class="empty text-center" v-if="me.inboundFriendRequests.length === 0 && me.outboundFriendRequests.length === 0 && me.friends.length === 0"><p>You don't have any partners on Ignition! You'll need to <a href="/friends/new" @click="clickAddButton()">invite people</a> to join or add you as a partner.</p></div>
   </div>
   <% /* "Add friends" modal */ %>
   <modal v-if="virtualPageSlug === 'new'" v-cloak key="new" @close="closeAddFriendsModal()">

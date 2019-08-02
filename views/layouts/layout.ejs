@@ -5,7 +5,7 @@
 } %><!DOCTYPE html>
 <html>
   <head>
-    <title>Ration</title>
+    <title>Ignition</title>
 
     <% /* Viewport tag for sensible mobile support */ %>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -53,16 +53,16 @@
   <body>
     <div id="page-wrap">
       <header id="page-header" class="navbar navbar-expand-sm flex-column flex-md-row justify-content-between">
-        <a class="navbar-brand mr-0" href="/"><img height="30" alt="Ration.io logo" src="/images/ration-logo.png"/></a>
+        <a class="navbar-brand mr-0" href="/">IGNITION</a>
         <div class="navbar-nav flex-row">
           <!-- LOGGED-IN NAVIGATION -->
           <% if(me) { %>
+            <a class="nav-item nav-link text-dark ml-2 mr-2 <%= typeof currentSection !== 'undefined' && currentSection === 'properties' ? 'current' : ''%>"
+              href="/properties">Properties</a>
           <a class="nav-item nav-link text-dark ml-2 mr-2 <%= typeof currentSection !== 'undefined' && currentSection === 'friends' ? 'current' : ''%>"
-              href="/friends">Friends</a>
-          <a class="nav-item nav-link text-dark ml-2 mr-2 <%= typeof currentSection !== 'undefined' && currentSection === 'properties' ? 'current' : ''%>"
-            href="/properties">Properties</a>
-          <a class="nav-item nav-link text-dark ml-2 mr-2 <%= typeof currentSection !== 'undefined' && currentSection === 'things' ? 'current' : ''%>"
-            href="/things">Things</a>
+              href="/friends">Partners</a>
+          <!-- <a class="nav-item nav-link text-dark ml-2 mr-2 <%= typeof currentSection !== 'undefined' && currentSection === 'things' ? 'current' : ''%>"
+            href="/things">Things</a> -->
           <a class="nav-item nav-link text-dark ml-2 mr-2 <%= typeof currentSection !== 'undefined' && currentSection === 'contact' ? 'current' : ''%>"
             href="/contact">Help</a>
           <!-- Only in desktop nav -->
@@ -78,14 +78,14 @@
           <a class="nav-item nav-link text-dark ml-2 mr-2 d-block d-md-none" href="/logout">Sign out</a>
           <% } else { %>
           <!-- LOGGED-OUT NAVIGATION -->
-          <a class="nav-item nav-link ml-2 mr-2" href="/faq">FAQ</a>
-          <a class="nav-item nav-link ml-2 mr-2" href="/login">Log in</a>
+          <!-- <a class="nav-item nav-link ml-2 mr-2" href="/faq">FAQ</a> -->
+          <a class="nav-item nav-link text-dark ml-2 mr-2" href="/login">Log in</a>
           <!-- Only in desktop nav -->
           <div class="form-inline d-none ml-2 d-md-block" >
-            <a class="btn btn-outline-info" href="/signup">Sign up</a>
+            <a class="btn btn-outline-primary text-primary" href="/signup">Sign up</a>
           </div>
           <!-- Only in mobile nav -->
-          <a class="nav-item nav-link text-info ml-2 d-block d-md-none" href="/signup">Sign up</a>
+          <a class="nav-item nav-link text-primary ml-2 d-block d-md-none" href="/signup">Sign up</a>
           <% } %>
         </div>
       </header>
@@ -93,13 +93,13 @@
       <!-- Alert if email has not been confirmed -->
       <% if(me&&me.emailChangeCandidate) { %>
       <div class="container-fluid">
-        <div class="alert alert-secondary mt-2" role="alert">
+        <div class="alert alert-dark mt-2" role="alert">
         Your updated email address needs verification. Until you click the link sent to <strong><%= me.emailChangeCandidate %></strong>, you&#39;ll still need to sign in as <strong><%= me.emailAddress %></strong>.
         </div>
       </div>
       <% } else if(me&&me.emailStatus === 'unconfirmed') { %>
       <div class="container-fluid">
-        <div class="alert alert-secondary mt-2" role="alert">
+        <div class="alert alert-dark mt-2" role="alert">
         Your email address still needs verification. Your account access may be limited until you click the link sent to <strong><%= me.emailChangeCandidate ? me.emailChangeCandidate : me.emailAddress%></strong>.
         </div>
       </div>
@@ -109,15 +109,15 @@
 
       <footer id="page-footer" class="navbar navbar-light justify-content-between flex-row-reverse">
         <div class="nav">
-          <small class="nav-item"><a class="nav-link text-info" target="_blank" href="https://github.com/mikermcneil/ration">Source code</a></small>
-          <small class="nav-item"><a class="nav-link text-info" href="/contact">Contact<span class="d-none d-sm-inline"> us</span></a></small>
-          <small class="nav-item"><a class="nav-link text-info" href="/legal/terms">Terms<span class="d-none d-sm-inline"> of Use</span></a></small>
-          <small class="nav-item"><a class="nav-link text-info" href="/legal/privacy">Privacy<span class="d-none d-sm-inline"> policy</span></a></small>
+          <small class="nav-item"><a class="nav-link text-dark" target="_blank" href="https://github.com/mikermcneil/ration">Source code</a></small>
+          <small class="nav-item"><a class="nav-link text-dark" href="/contact">Contact<span class="d-none d-sm-inline"> us</span></a></small>
+          <small class="nav-item"><a class="nav-link text-dark" href="/legal/terms">Terms<span class="d-none d-sm-inline"> of Use</span></a></small>
+          <small class="nav-item"><a class="nav-link text-dark" href="/legal/privacy">Privacy<span class="d-none d-sm-inline"> policy</span></a></small>
           <% if(me) { %>
-          <small class="nav-item"><a class="nav-link text-info" href="/logout">Sign out</a></small>
+          <small class="nav-item"><a class="nav-link text-dark" href="/logout">Sign out</a></small>
           <% } %>
         </div>
-        <small class="copy">Copyright &copy; 2018 <a target="_blank" href="https://sailsjs.com/about">Sails Co.</a> <br class="xs-only"/>All rights reserved.</small>
+        <small class="copy">Copyright &copy; 2018 <a target="_blank" href="https://sailsjs.com/about">Ignition Co.</a> <br class="xs-only"/>All rights reserved.</small>
       </footer>
     </div>
 
