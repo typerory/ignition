@@ -15,7 +15,7 @@ module.exports.bootstrap = async function(done) {
   var path = require('path');
 
   // This bootstrap version indicates what version of fake data we're dealing with here.
-  var HARD_CODED_DATA_VERSION = 5.01;
+  var HARD_CODED_DATA_VERSION = 5.2;
 
   // This path indicates where to store/look for the JSON file that tracks the "last run bootstrap info"
   // locally on this development computer (if we happen to be on a development computer).
@@ -62,7 +62,7 @@ module.exports.bootstrap = async function(done) {
 
   // Create some fake users, fetching the records so we can do more stuff below.
   await User.create({ emailAddress: 'admin@example.com', fullName: 'Ryan Dahl', isSuperAdmin: true, password: await sails.helpers.passwords.hashPassword('abc123') }).fetch();
-  var rory = await User.create({ emailAddress: 'rory@example.com', fullName: 'Rory Milliard', password: await sails.helpers.passwords.hashPassword('abc123') }).fetch();
+  var rory = await User.create({ emailAddress: 'rory@example.com', fullName: 'Rory Milliard', isSuperAdmin: true, password: await sails.helpers.passwords.hashPassword('abc123') }).fetch();
   var raquel = await User.create({ emailAddress: 'raquel@example.com', fullName: 'Raquel Estevez', password: await sails.helpers.passwords.hashPassword('abc123') }).fetch();
   var rachael = await User.create({ emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', password: await sails.helpers.passwords.hashPassword('abc123') }).fetch();
   var mike = await User.create({ emailAddress: 'mike@example.com', fullName: 'Mike McNeil', password: await sails.helpers.passwords.hashPassword('abc123') }).fetch();

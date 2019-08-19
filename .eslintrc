@@ -43,7 +43,8 @@
 
     // Models:
     "User": true,
-    "Thing": true
+    "Thing": true,
+    "Property": true,
 
     // …and any others.
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

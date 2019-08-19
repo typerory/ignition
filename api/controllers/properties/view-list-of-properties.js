@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'View list of properties',
 
 
-  description: 'Display "List of properties" page.',
+  description: 'Display "Properties" page.',
 
 
   exits: {
@@ -16,29 +16,32 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function () {
 
-    var properties = [
-      { id: 1,
-        address: '6901 Holly Rd',
-        author: {
-          fullName: 'Rory Silva'
-        },
-      },
-      { id: 2,
-        address: '123 Main Street',
-        author: {
-          fullName: 'George Reynaud'
-        },
-      }
-    ];
+    var url = require('url');
+
+    // Get the list of properties this user can see.
+    var properties = await Property.find({
+      or: [
+        // Friend properties:
+        { owner: { 'in': _.pluck(this.req.me.friends, 'id') } },
+        // My properties:
+        { owner: this.req.me.id }
+      ]
+    })
+    .populate('owner');
+
+    _.each(properties, (property)=> {
+      property.imageSrc = url.resolve(sails.config.custom.baseUrl, '/api/v1/properties/'+property.id+'/photo');
+      delete property.imageUploadFd;
+      delete property.imageUploadMime;
+    });
 
     // Respond with view.
-    return exits.success({
-      properties,
-      currentSection: 'properties'
-    }
-    );
+    return {
+      currentSection: 'properties',
+      properties: properties,
+    };
 
   }
 

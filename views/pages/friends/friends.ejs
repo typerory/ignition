@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="friends-list" v-if="me.friends.length > 0">
-      <h5 class="text-muted">My friends</h5>
+      <h5 class="text-muted">My partners</h5>
       <table class="table table-striped">
         <thead>
           <th>Name</th>
@@ -20,14 +20,14 @@
             <td><strong>{{friend.fullName}}</strong></td>
             <td class="d-none d-md-table-cell">{{friend.emailAddress}}</td>
             <td class="actions-column">
-              <button class="btn btn-sm btn-outline-danger" @click="clickRemoveFriend(friend.id)">Remove friend</button>
+              <button class="btn btn-sm btn-outline-danger" @click="clickRemoveFriend(friend.id)">Remove partner</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="requests-list mt-4" v-if="me.inboundFriendRequests.length > 0 || me.outboundFriendRequests.length > 0">
-      <h5 class="text-muted">Friend requests</h5>
+      <h5 class="text-muted">Partner requests</h5>
       <table class="table table-striped">
         <thead>
           <th>Name</th>
@@ -54,10 +54,10 @@
     </div>
     <div class="empty text-center" v-if="me.inboundFriendRequests.length === 0 && me.outboundFriendRequests.length === 0 && me.friends.length === 0"><p>You don't have any partners on Ignition! You'll need to <a href="/friends/new" @click="clickAddButton()">invite people</a> to join or add you as a partner.</p></div>
   </div>
-  <% /* "Add friends" modal */ %>
+  <% /* "Add partners" modal */ %>
   <modal v-if="virtualPageSlug === 'new'" v-cloak key="new" @close="closeAddFriendsModal()">
     <div class="modal-header">
-      <h5 class="modal-title">Invite friends</h5>
+      <h5 class="modal-title">Invite partners</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span>&times;</span>
       </button>
@@ -99,13 +99,13 @@
     </div>
     <ajax-form action="removeFriend" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingRemoveFriendForm" @submitted="submittedRemoveFriendForm($event)">
       <div class="modal-body">
-        <p>Are you sure you want to remove {{selectedFriend.fullName}} from your friends?</p>
-        <p>You will no longer be able to borrow items from this person.</p>
+        <p>Are you sure you want to remove {{selectedFriend.fullName}} from your partners?</p>
+        <p>You will no longer be able to see properties added by this partner.</p>
         <p class="text-danger" v-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/contact">contact support</a> if the error persists.</small></p>
       </div>
       <div class="modal-footer">
         <button data-dismiss="modal" class="btn btn-outline-secondary mr-1">Nevermind</button>
-        <ajax-button type="submit" :syncing="syncing" class="btn btn-danger ml-1">Remove Friend</ajax-button>
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-danger ml-1">Remove Partner</ajax-button>
       </div>
     </ajax-form>
   </modal>

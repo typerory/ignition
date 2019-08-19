@@ -9,21 +9,142 @@
       </div>
     </div>
     <div class="listings" v-if="properties.length > 0">
-      <div class="card" :key="'property'+property.id" :class="property.author.fullName === me.fullName ? 'mine' : ''" v-for="property in properties">
-        <!-- <div class="card-options dropdown">
+      <div class="card" :key="'property'+property.id" v-for="property in properties">
+        <div class="card-options dropdown">
           <span class="options-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-v"></span></span>
           <div class="dropdown-menu dropdown-menu-right">
             <span class="dropdown-item" @click="">View</span>
             <span class="dropdown-item" @click="" v-if="property.author.fullName === me.fullName">Delete</span>
           </div>
-        </div> -->
-        <!-- <img alt="A mysterious item" :alt="property.address ? property.address : 'A mysterious item'" :src="property.imageSrc"/> -->
+        </div>
         <span class="address" v-if="property.address">{{property.address}}<br/></span>
-        <small class="author text-primary"><span class="fa fa-home mr-1"></span>{{property.author.fullName}}</small>
+        <span class="author text-secondary" v-if="property.address">{{property.description}}<br/></span>
+        <small class="author text-primary mt-3"><span class="fa fa-home mr-1"></span>{{property.author.fullName}}</small>
       </div>
     </div>
     <div class="empty text-center" v-if="properties.length = 0"><p>You and your partners have not added any properties. <a href="/properties/new" @click="clickAddButton()">Add a property</a> to get started!</p></div>
   </div>
 
+  <% /* "Upload property" modal */ %>
+  <modal v-if="virtualPageSlug === 'new'" v-cloak key="new" @close="closeUploadPropertyModal()">
+    <div class="modal-header">
+      <h5 class="modal-title">Upload a new property</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span>&times;</span>
+      </button>
+    </div>
+    <ajax-form action="uploadProperty" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingUploadPropertyForm" @submitted="submittedUploadPropertyForm($event)">
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Add a photo:</label>
+          <div class="photo-uploader" :class="!uploadFormData.previewImageSrc ? 'empty' :  ''">
+            <div class="photo-upload-field row d-flex align-items-center" :class="!uploadFormData.previewImageSrc ? 'justify-content-center' :  'justify-content-start'" >
+              <div class="photo-preview col">
+                <div class="image-wrapper" :class="!uploadFormData.previewImageSrc ? 'd-flex align-items-center justify-content-center' : ''">
+                  <img v-if="uploadFormData.previewImageSrc" alt="A preview of the selected item" :src="uploadFormData.previewImageSrc"/>
+                  <span v-else class="placeholder-icon fa fa-picture-o"></span>
+                </div>
+              </div>
+              <div class="col d-flex-column justify-content-center">
+                <span class="file-upload-button btn btn-sm" :class="[formErrors.photo ? 'btn-outline-danger' : !uploadFormData.previewImageSrc ? 'btn-outline-success' : 'btn-outline-secondary mr-3']">
+                  <span class="button-text" v-if="!uploadFormData.previewImageSrc">Select image</span>
+                  <span class="button-text" v-else>Change image</span>
+                  <input type="file" :disabled="syncing" accept="image/*" class="file-input" @change="changeFileInput($event.target.files)"/>
+                </span>
+                <p class="image-advice text-muted" v-if="!formErrors.photo"><strong>Tip</strong>: Make sure the property is front and center in the photo.</p>
+                <p class="image-advice text-danger" v-if="formErrors.photo">A photo is not required in order to add a new item.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Address</label>
+          <input class="form-control" type="text" v-model="uploadFormData.address" placeholder="39-89 51st Street">
+        </div>
+        <div class="form-group">
+          <label>City</label>
+          <input class="form-control" type="text" v-model="uploadFormData.city" placeholder="Woodside">
+        </div>
+        <div class="form-group">
+          <label>State</label>
+          <input class="form-control" type="text" v-model="uploadFormData.state" placeholder="New York">
+        </div>
+        <div class="form-group">
+          <label>Zip</label>
+          <input class="form-control" type="text" v-model="uploadFormData.zip" placeholder="11377">
+        </div>
+        <div class="form-group">
+          <label>Purchase Price</label>
+          <input class="form-control" type="number" v-model="uploadFormData.purchasePrice" placeholder="125000">
+        </div>
+        <div class="form-group">
+          <label>Estimated Rehab Amount</label>
+          <input class="form-control" type="number" v-model="uploadFormData.estimatedRehabAmount" placeholder="25000">
+        </div>
+        <div class="form-group">
+          <label>Desired Net Cashflow</label>
+          <input class="form-control" type="number" v-model="uploadFormData.desiredNetCashflow" placeholder="1500">
+        </div>
+        <div class="form-group">
+          <label>Rent</label>
+          <input class="form-control" type="number" v-model="uploadFormData.rent" placeholder="4000">
+        </div>
+        <div class="form-group">
+          <label>Other Income</label>
+          <input class="form-control" type="number" v-model="uploadFormData.otherIncome" placeholder="300">
+        </div>
+        <div class="form-group">
+          <label>Mortgage</label>
+          <input class="form-control" type="number" v-model="uploadFormData.mortgage" placeholder="1800">
+        </div>
+        <div class="form-group">
+          <label>PMI</label>
+          <input class="form-control" type="number" v-model="uploadFormData.pmi" placeholder="80">
+        </div>
+        <div class="form-group">
+          <label>Estimated Utilities</label>
+          <input class="form-control" type="number" v-model="uploadFormData.estimatedUtilities" placeholder="500">
+        </div>
+        <div class="form-group">
+          <label>Estimated Insurance</label>
+          <input class="form-control" type="number" v-model="uploadFormData.estimatedInsurance" placeholder="500">
+        </div>
+        <div class="form-group">
+          <label>Estimated Tax</label>
+          <input class="form-control" type="number" v-model="uploadFormData.estimatedTax" placeholder="500">
+        </div>
+        <p class="text-danger" v-if="cloudError === 'tooBig'"><small>That file is too big. Please choose a smaller picture.</small></p>
+        <p class="text-danger" v-else-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/support">contact support</a> if the error persists.</small></p>
+      </div>
+      <div class="modal-footer flex-row-reverse justify-content-start">
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-primary ml-1">Upload property</ajax-button>
+        <button data-dismiss="modal" class="btn btn-outline-primary mr-1">Cancel</button>
+      </div>
+    </ajax-form>
+  </modal>
+
+  <% /* "Delete property" modal */ %>
+  <modal v-if="confirmDeletePropertyModalOpen && selectedProperty" v-cloak key="delete" @close="closeDeletePropertyModal()">
+    <div class="modal-header">
+      <h5 class="modal-title">Remove this property?</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span>&times;</span>
+      </button>
+    </div>
+    <ajax-form action="destroyOneProperty" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeletePropertyForm" @submitted="submittedDeletePropertyForm()">
+      <div class="modal-body">
+        <p>Are you sure you want to remove {{selectedProperty.address || 'property'}}?</p>
+        <p>This property will no longer be available to partners.</p>
+        <p class="text-danger" v-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/contact">contact support</a> if the error persists.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button data-dismiss="modal" class="btn btn-outline-secondary mr-1">Nevermind</button>
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-danger ml-1">Remove</ajax-button>
+      </div>
+    </ajax-form>
+  </modal>
+
+  <%/* For virtual pages */%>
+  <router-view></router-view>
 </div>
 <%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

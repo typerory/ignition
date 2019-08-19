@@ -15,7 +15,7 @@ module.exports.routes = {
   //  ║║║║╣ ╠╩╗╠═╝╠═╣║ ╦║╣ ╚═╗
   //  ╚╩╝╚═╝╚═╝╩  ╩ ╩╚═╝╚═╝╚═╝
   'GET /':                   { action: 'view-homepage-or-redirect' },
-  'GET /friends/:virtualPageSlug?':   { action: 'friends/view-friends' },
+  'GET /friends/:virtualPageSlug?':    { action: 'friends/view-friends' },
   'GET /things/:virtualPageSlug?':     { action: 'things/view-available-things' },
 
   'GET /faq':                { view:   'pages/faq' },
@@ -37,9 +37,7 @@ module.exports.routes = {
 
   'GET /claim-account':      { action: 'entrance/view-claim-account' },
 
-  'GET /properties/':        { action: 'properties/view-list-of-properties'},
-
-
+  'GET /properties/:virtualPageSlug?':   { action: 'properties/view-list-of-properties'},
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
@@ -50,11 +48,11 @@ module.exports.routes = {
   'PUT   /api/v1/account/update-profile':             { action: 'account/update-profile' },
   'PUT   /api/v1/account/update-billing-card':        { action: 'account/update-billing-card' },
 
-  'PUT   /api/v1/entrance/login':                        { action: 'entrance/login' },
-  'POST  /api/v1/entrance/signup':                       { action: 'entrance/signup' },
-  'POST  /api/v1/entrance/send-password-recovery-email': { action: 'entrance/send-password-recovery-email' },
-  'POST  /api/v1/entrance/update-password-and-login':    { action: 'entrance/update-password-and-login' },
-  'POST  /api/v1/entrance/claim-account-and-login':   { action: 'entrance/claim-account-and-login' },
+  'PUT   /api/v1/entrance/login':                         { action: 'entrance/login' },
+  'POST  /api/v1/entrance/signup':                        { action: 'entrance/signup' },
+  'POST  /api/v1/entrance/send-password-recovery-email':  { action: 'entrance/send-password-recovery-email' },
+  'POST  /api/v1/entrance/update-password-and-login':     { action: 'entrance/update-password-and-login' },
+  'POST  /api/v1/entrance/claim-account-and-login':       { action: 'entrance/claim-account-and-login' },
 
   'POST  /api/v1/deliver-contact-form-message':       { action: 'deliver-contact-form-message' },
 
@@ -68,6 +66,10 @@ module.exports.routes = {
   'DELETE  /api/v1/friends/:id':                      { action: 'friends/remove-friend' },
   'POST   /api/v1/friends':                           { action: 'friends/add-friends' },
   'PUT    /api/v1/approve-friend':                    { action: 'friends/approve-friend' },
+
+  'POST  /api/v1/properties':                         { action: 'properties/upload-property' },
+  'DELETE  /api/v1/properties/:id':                   { action: 'properties/destroy-one-property' },
+  'GET   /api/v1/properties/:id/photo':               { action: 'properties/download-photo', skipAssets: false },
 
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
